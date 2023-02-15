@@ -4,7 +4,8 @@
   "description": "Freely serve live stock information by scraping web pages",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/le-quentin/free-stock-tickers/issues"
   },
-  "homepage": "https://github.com/le-quentin/free-stock-tickers#readme"
+  "homepage": "https://github.com/le-quentin/free-stock-tickers#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
