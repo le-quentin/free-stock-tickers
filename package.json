@@ -2,6 +2,7 @@
   "name": "free-stock-tickers",
   "version": "1.0.0",
   "description": "Freely serve live stock information by scraping web pages",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,6 +19,8 @@
   },
   "homepage": "https://github.com/le-quentin/free-stock-tickers#readme",
   "dependencies": {
+    "axios": "^1.3.3",
+    "cheerio": "^1.0.0-rc.12",
     "express": "^4.18.2"
   }
 }
