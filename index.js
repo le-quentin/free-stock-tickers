@@ -5,6 +5,12 @@ const port = process.env.FREE_TICKERS_PORT || 3000;
 
 const app = express();
 
+// API call log filter
+app.use((req, res, next) => {
+  console.log(`[${new Date().toLocaleString().replace(',', ' ')}] - ${req.method} ${req.url}`);
+  next();
+});
+
 app.get('/', (_req, res) => {
   res.send('Hello World!');
 });
@@ -12,10 +18,10 @@ app.get('/', (_req, res) => {
 app.use(routes);
 
 // Global error handling
-app.use((err, req, res, next) => {
+app.use((err, _req, res, next) => {
   console.error(err.stack)
   res.status(500).send(err.message || 'Something broke!')
-})
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
