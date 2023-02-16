@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "build": "pkg index.js -o ./bin/free-stock-tickers"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
