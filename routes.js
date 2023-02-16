@@ -8,7 +8,8 @@ router.get('/tickers/:code', (req, res, next) => {
   console.log(`Code: ${code}`)
   return scrapeValue(code)
     .then(value => {
-      res.send(`${value}`);
+      res.setHeader('Content-Type', 'text/csv');
+      res.send(`currentValue\r\n${value}`);
     })
     .catch(next);
 });
