@@ -1,13 +1,13 @@
 import {Router} from 'express';
-import scrapeValue from './easybourse-scrapper.js';
+import scrapeValue from './investing-scraper.js';
 
 const router = Router();
 
-router.get('/tickers/:code', (req, res) => {
+router.get('/tickers/:code', async (req, res) => {
   const code = req.params.code;
   console.log(`Code: ${code}`)
-  const value = scrapeValue(code);
-  res.send(value);
+  const value = await scrapeValue(code);
+  res.send(`${value}`);
 });
 
 export default router;
