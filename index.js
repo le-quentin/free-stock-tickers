@@ -1,7 +1,7 @@
 import express from 'express';
 import routes from './routes.js';
 
-const port = process.env.FREE_TICKERS_PORT || 3000;
+const port = process.env.APP_PORT || 3000;
 
 const app = express();
 
