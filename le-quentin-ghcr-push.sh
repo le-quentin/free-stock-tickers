@@ -12,8 +12,9 @@ fi
 
 docker buildx build \
 --push \
+--platform linux/amd64 \
 --platform linux/arm/v7 \
---tag "$image_name":"$version_tag"-armv7 \
---tag "$image_name":latest-armv7 \
+--tag "$image_name":"sha-$version_tag" \
+--tag "$image_name":latest \
 .
 
