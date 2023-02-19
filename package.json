@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Freely serve live stock information by scraping web pages",
   "type": "module",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "watch": "nodemon index.js"
+    "start": "node src/app.js",
+    "watch": "nodemon src/app.js"
   },
   "repository": {
     "type": "git",
