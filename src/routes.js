@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import scrapeValue from './investing-scraper.js';
+import scrapeValue from './scrapers/investing-scraper.js';
 
 const router = Router();
 

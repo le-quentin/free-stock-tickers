@@ -1,2 +1,2 @@
 # free-stock-tickers
-Freely fetch live stock data by scrapping web pages
+Freely fetch live stock data by scraping web pages
