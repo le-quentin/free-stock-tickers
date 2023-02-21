@@ -292,18 +292,19 @@ root.App.main = {"context":{"dispatcher":{"stores":"U2FsdGVkX1+0BQ4chASAJ2tLVHz7
 <script>window.webpackPublicPath='https://s.yimg.com/uc/finance/dd-site/js/';</script></body></html>
 `;
 
-//import {} from '../../../test/_sinonHooks.test.js';
 import httpClient from '../../http/http-client.js';
 import scrapeValue from '../yahoo-scraper.js';
 import test from 'ava';
 import sinon from 'sinon';
 
 test('Get value directly with code', async t => {
-    sinon.stub(httpClient, 'get').resolves({
+    const httpGetStub = sinon.stub(httpClient, 'get').resolves({
         data: EXAMPLE_PAGE,
     });
 
     const value = await scrapeValue("aCode");
 
+    sinon.assert.calledOnce(httpGetStub);
+    t.regex(httpGetStub.getCall(0).args[0], /.*\/aCode.*/);
     t.is(value, 172.88);
 });
