@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/app.js",
   "scripts": {
-    "test": "ava",
+    "test": "c8 --all ava",
     "start": "node src/app.js",
     "watch": "nodemon src/app.js"
   },
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "ava": "^5.2.0",
+    "c8": "^7.13.0",
     "nodemon": "^2.0.20",
     "sinon": "^15.0.1"
   }
