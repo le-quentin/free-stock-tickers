@@ -293,10 +293,18 @@ root.App.main = {"context":{"dispatcher":{"stores":"U2FsdGVkX1+0BQ4chASAJ2tLVHz7
 `;
 
 import {} from '../../../test/_sinonHooks.test.js';
+import httpClient from '../../http/http-client.js';
 import scrapeValue from '../yahoo-scraper.js';
+import assert from 'node:assert/strict';
 
 describe('Yahoo.com scraper', function() {
-    it('Get value directly with code', function() {
-        const httpClientStub = this.sinon.stub();
+    it('Get value directly with code', async function() {
+        this.sinon.stub(httpClient, 'get').resolves({
+            data: EXAMPLE_PAGE,
+        });
+
+        const value = await scrapeValue("aCode");
+
+        assert(value == 172.88);
     });
 });
