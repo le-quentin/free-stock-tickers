@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/app.js",
   "scripts": {
-    "test": "c8 --all ava",
+    "test": "c8 --all ava --serial",
     "start": "node src/app.js",
     "watch": "nodemon src/app.js"
   },

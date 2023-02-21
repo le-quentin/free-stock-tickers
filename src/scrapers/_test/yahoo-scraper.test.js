@@ -297,6 +297,10 @@ import scrapeValue from '../yahoo-scraper.js';
 import test from 'ava';
 import sinon from 'sinon';
 
+test.afterEach.always(() => {
+    sinon.restore();
+});
+
 test('Get value directly with code', async t => {
     const httpGetStub = sinon.stub(httpClient, 'get').resolves({
         data: EXAMPLE_PAGE,
@@ -307,4 +311,40 @@ test('Get value directly with code', async t => {
     sinon.assert.calledOnce(httpGetStub);
     t.regex(httpGetStub.getCall(0).args[0], /.*\/aCode.*/);
     t.is(value, 172.88);
+});
+
+test('Throw Error when cannot find tag in page', async t => {
+    const httpGetStub = sinon.stub(httpClient, 'get').resolves({
+        data: '<html><body>A random page without the tag</body></html>',
+    });
+
+    try {
+        await scrapeValue("aCode");
+    } catch(err) {
+        t.regex(err.message, /.*Cannot find relevant html tag.*/);
+        sinon.assert.calledOnce(httpGetStub);
+        t.regex(httpGetStub.getCall(0).args[0], /.*\/aCode.*/);
+        return;
+    }
+    t.fail('Should have thrown');
+});
+
+test('Throw Error when tag has empty value', async t => {
+    const httpGetStub = sinon.stub(httpClient, 'get').resolves({
+        data: `<html><body>
+        <div id="quote-header-info">
+            <span data-field="regularMarketPrice" value="toto"/>
+        </div>
+        </body></html>`,
+    });
+
+    try {
+        await scrapeValue("aCode");
+    } catch(err) {
+        t.regex(err.message, /.*Cannot find stock value.*/);
+        sinon.assert.calledOnce(httpGetStub);
+        t.regex(httpGetStub.getCall(0).args[0], /.*\/aCode.*/);
+        return;
+    }
+    t.fail('Should have thrown');
 });

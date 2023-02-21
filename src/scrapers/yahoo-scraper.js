@@ -7,9 +7,9 @@ function searchValueInBody(body) {
   const $ = cheerio.load(body);
 
   let tag = $('#quote-header-info [data-field="regularMarketPrice"]');
-  if (tag?.attr('value')) return tag.attr('value');
+  if (tag.length) return Number(tag.attr('value'));
   
-  throw new Error('Couldn\'t find relevant html tag in yahoo.com page!');
+  throw new Error('Cannot find relevant html tag in yahoo.com page!');
 }
 
 async function getPageLink(code) {
