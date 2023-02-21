@@ -1,7 +1,6 @@
-import {} from '../../../test/_sinonHooks.test.js';
+import test from 'ava';
 
-describe('HTTP client', function() {
-  it('Dummy test', function() {
-    console.log('Running dummy test');
-  });
+test('Dummy test', t => {
+  console.log('Running dummy test');
+  t.pass();
 });

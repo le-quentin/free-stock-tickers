@@ -26,5 +26,5 @@ export default async function getCurrentValue(code) {
     throw new Error('Cannot find stock value in yahoo.com page!');
   }
   console.log(`Value: ${value}`);
-  return value;
+  return Number(value);
 }
