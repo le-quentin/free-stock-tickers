@@ -1,0 +1,6 @@
+{
+  "name": "@free-stock-tickers/http",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module"
+}

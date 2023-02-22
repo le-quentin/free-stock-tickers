@@ -1,0 +1,10 @@
+{
+  "name": "@free-stock-tickers/scrapers",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+
+  "dependencies": {
+    "@free-stock-tickers/http": "*"
+  }
+}

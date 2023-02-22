@@ -1,4 +1,4 @@
-import _httpClient from '../http/http-client.js';
+import _httpClient from '@free-stock-tickers/http/http-client.js';
 import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
