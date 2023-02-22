@@ -1,7 +1,26 @@
-import httpClient from '../http/http-client.js';
+import defaultHttpClient from '../http/http-client.js';
 import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.investing.com';
+
+class InvestingScraper { 
+  constructor({ httpClient = defaultHttpClient }) {
+    this.httpClient = httpClient;
+  }
+
+  async getCurrentValue(code) {
+    const url = await getPageLink(this.httpClient, code);
+    console.log(`Scraping ${url}`);
+    const {data} = await this.httpClient.get(url);
+    const value = searchValueInBody(data);
+    if (!value) {
+      console.error(`Value: ${value}`);
+      throw new Error('Cannot find stock value in investing.com page!');
+    }
+    console.log(`Value: ${value}`);
+    return value;
+  }
+}
 
 function searchValueInBody(body) {
   const $ = cheerio.load(body);
@@ -15,7 +34,7 @@ function searchValueInBody(body) {
   throw new Error('Couldn\'t find relevant html tag in investing.com page!');
 }
 
-async function getPageLink(code) {
+async function getPageLink(httpClient, code) {
   const searchUrl = `${ROOT_URL}/search/?q=${code}`;
   console.log(`Search url: ${searchUrl}`);
   const {data} = await httpClient.get(searchUrl);
@@ -29,15 +48,6 @@ async function getPageLink(code) {
   return ROOT_URL + link;
 }
 
-export default async function getCurrentValue(code) {
-  const url = await getPageLink(code);
-  console.log(`Scraping ${url}`);
-  const {data} = await httpClient.get(url);
-  const value = searchValueInBody(data);
-  if (!value) {
-    console.error(`Value: ${value}`);
-    throw new Error('Cannot find stock value in investing.com page!');
-  }
-  console.log(`Value: ${value}`);
-  return value;
+export default function(dependencies = {}) {
+  return new InvestingScraper(dependencies);
 }

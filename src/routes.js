@@ -1,12 +1,13 @@
 import {Router} from 'express';
-import scrapeValue from './scrapers/investing-scraper.js';
+import Scraper from './scrapers/investing-scraper.js';
 
 const router = Router();
+const scraper = Scraper();
 
 router.get('/tickers/:code', (req, res, next) => {
   const code = req.params.code;
   console.log(`Code: ${code}`)
-  return scrapeValue(code)
+  return scraper.getCurrentValue(code)
     .then(value => {
       res.setHeader('Content-Type', 'text/csv');
       res.send(`currentValue\r\n${value}`);
