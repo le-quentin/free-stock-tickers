@@ -293,57 +293,69 @@ root.App.main = {"context":{"dispatcher":{"stores":"U2FsdGVkX1+0BQ4chASAJ2tLVHz7
 `;
 
 import httpClient from '../../http/http-client.js';
-import scrapeValue from '../yahoo-scraper.js';
+import yahooScraper from '../yahoo-scraper.js';
 import test from 'ava';
 import sinon from 'sinon';
 
-test.afterEach.always(() => {
-    sinon.restore();
+test('Build with default dependencies', t => {
+    const scraper = yahooScraper();
+    t.is(scraper.httpClient, httpClient);
 });
 
+function stubHttpClientGets(data) {
+    return {
+        get: sinon.stub().resolves({
+            data,
+        })
+    };
+}
+
 test('Get value directly with code', async t => {
-    const httpGetStub = sinon.stub(httpClient, 'get').resolves({
-        data: EXAMPLE_PAGE,
+    const httpClientStub = stubHttpClientGets(EXAMPLE_PAGE);
+    const scraper = yahooScraper({ 
+        httpClient: httpClientStub
     });
 
-    const value = await scrapeValue("aCode");
+    const value = await scraper.getCurrentValue("aCode");
 
-    sinon.assert.calledOnce(httpGetStub);
-    t.regex(httpGetStub.getCall(0).args[0], /.*\/aCode.*/);
+    sinon.assert.calledOnce(httpClientStub.get);
+    t.regex(httpClientStub.get.getCall(0).args[0], /.*\/aCode.*/);
     t.is(value, 172.88);
 });
 
 test('Throw Error when cannot find tag in page', async t => {
-    const httpGetStub = sinon.stub(httpClient, 'get').resolves({
-        data: '<html><body>A random page without the tag</body></html>',
+    const httpClientStub = stubHttpClientGets('<html><body>A random page without the tag</body></html>');
+    const scraper = yahooScraper({ 
+        httpClient: httpClientStub
     });
 
     try {
-        await scrapeValue("aCode");
+        await scraper.getCurrentValue("aCode");
     } catch(err) {
         t.regex(err.message, /.*Cannot find relevant html tag.*/);
-        sinon.assert.calledOnce(httpGetStub);
-        t.regex(httpGetStub.getCall(0).args[0], /.*\/aCode.*/);
+        sinon.assert.calledOnce(httpClientStub.get);
+        t.regex(httpClientStub.get.getCall(0).args[0], /.*\/aCode.*/);
         return;
     }
     t.fail('Should have thrown');
 });
 
 test('Throw Error when tag has empty value', async t => {
-    const httpGetStub = sinon.stub(httpClient, 'get').resolves({
-        data: `<html><body>
+    const httpClientStub = stubHttpClientGets(`<html><body>
         <div id="quote-header-info">
             <span data-field="regularMarketPrice" value="toto"/>
         </div>
-        </body></html>`,
+        </body></html>`);
+    const scraper = yahooScraper({ 
+        httpClient: httpClientStub
     });
 
     try {
-        await scrapeValue("aCode");
+        await scraper.getCurrentValue("aCode");
     } catch(err) {
         t.regex(err.message, /.*Cannot find stock value.*/);
-        sinon.assert.calledOnce(httpGetStub);
-        t.regex(httpGetStub.getCall(0).args[0], /.*\/aCode.*/);
+        sinon.assert.calledOnce(httpClientStub.get);
+        t.regex(httpClientStub.get.getCall(0).args[0], /.*\/aCode.*/);
         return;
     }
     t.fail('Should have thrown');

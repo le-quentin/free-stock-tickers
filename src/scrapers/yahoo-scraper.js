@@ -1,7 +1,11 @@
-import httpClient from '../http/http-client.js';
+import _httpClient from '../http/http-client.js';
 import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
+
+function YahooScrapper(dependencies) {
+  this.httpClient = dependencies.httpClient;
+}
 
 function searchValueInBody(body) {
   const $ = cheerio.load(body);
@@ -16,10 +20,10 @@ async function getPageLink(code) {
   return `${ROOT_URL}/quote/${code}`
 }
 
-export default async function getCurrentValue(code) {
+YahooScrapper.prototype.getCurrentValue = async function(code) {
   const url = await getPageLink(code);
   console.log(`Scraping ${url}`);
-  const {data} = await httpClient.get(url);
+  const {data} = await this.httpClient.get(url);
   const value = searchValueInBody(data);
   if (!value) {
     console.error(`Value: ${value}`);
@@ -27,4 +31,8 @@ export default async function getCurrentValue(code) {
   }
   console.log(`Value: ${value}`);
   return Number(value);
+}
+
+export default function({ httpClient = _httpClient } = {}) {
+  return new YahooScrapper({httpClient});
 }
