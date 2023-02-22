@@ -1,12 +1,22 @@
 import defaultInvestingScraper from '@free-stock-tickers/scrapers/investing-scraper.js';
+import defaultYahooScraper from '@free-stock-tickers/scrapers/yahoo-scraper.js';
+
+const YAHOO_CODE_REGEX = /^[A-Z]{2,4}$/
 
 class TickersService {
-  constructor({investingScraper = defaultInvestingScraper}) {
-    this.investingScraper =investingScraper;
+  constructor({
+    investingScraper = defaultInvestingScraper,
+    yahooScraper = defaultYahooScraper,
+  }) {
+    this.investingScraper = investingScraper;
+    this.yahooScraper = yahooScraper;
   }
 
   async findOne({ searchString }) {
-    return await this.investingScraper.getCurrentValue(searchString);
+    if (searchString.match(YAHOO_CODE_REGEX)) {
+      return await this.yahooScraper.getCurrentValue(searchString);
+    }
+    return this.investingScraper.getCurrentValue(searchString);
   }
 }
 
