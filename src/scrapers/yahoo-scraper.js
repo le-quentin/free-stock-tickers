@@ -3,8 +3,22 @@ import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
 
-function YahooScrapper(dependencies) {
-  this.httpClient = dependencies.httpClient;
+class YahooScrapper {
+  constructor(dependencies) {
+    this.httpClient = dependencies.httpClient;
+  }
+  async getCurrentValue(code) {
+    const url = await getPageLink(code);
+    console.log(`Scraping ${url}`);
+    const {data} = await this.httpClient.get(url);
+    const value = searchValueInBody(data);
+    if (!value) {
+      console.error(`Value: ${value}`);
+      throw new Error('Cannot find stock value in yahoo.com page!');
+    }
+    console.log(`Value: ${value}`);
+    return Number(value);
+  }
 }
 
 function searchValueInBody(body) {
@@ -20,18 +34,6 @@ async function getPageLink(code) {
   return `${ROOT_URL}/quote/${code}`
 }
 
-YahooScrapper.prototype.getCurrentValue = async function(code) {
-  const url = await getPageLink(code);
-  console.log(`Scraping ${url}`);
-  const {data} = await this.httpClient.get(url);
-  const value = searchValueInBody(data);
-  if (!value) {
-    console.error(`Value: ${value}`);
-    throw new Error('Cannot find stock value in yahoo.com page!');
-  }
-  console.log(`Value: ${value}`);
-  return Number(value);
-}
 
 export default function({ httpClient = _httpClient } = {}) {
   return new YahooScrapper({httpClient});
