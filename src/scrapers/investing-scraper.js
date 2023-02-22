@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 const ROOT_URL = 'https://www.investing.com';
 
 class InvestingScraper { 
-  constructor({ httpClient = defaultHttpClient }) {
+  constructor({ httpClient = defaultHttpClient() }) {
     this.httpClient = httpClient;
   }
 

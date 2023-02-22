@@ -5,8 +5,8 @@ const YAHOO_CODE_REGEX = /^[A-Z]{2,4}$/
 
 class TickersService {
   constructor({
-    investingScraper = defaultInvestingScraper,
-    yahooScraper = defaultYahooScraper,
+    investingScraper = defaultInvestingScraper(),
+    yahooScraper = defaultYahooScraper(),
   }) {
     this.investingScraper = investingScraper;
     this.yahooScraper = yahooScraper;

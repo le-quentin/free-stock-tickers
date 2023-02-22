@@ -292,14 +292,13 @@ root.App.main = {"context":{"dispatcher":{"stores":"U2FsdGVkX1+0BQ4chASAJ2tLVHz7
 <script>window.webpackPublicPath='https://s.yimg.com/uc/finance/dd-site/js/';</script></body></html>
 `;
 
-import httpClient from '@free-stock-tickers/http/http-client.js';
 import yahooScraper from '@free-stock-tickers/scrapers/yahoo-scraper.js';
 import test from 'ava';
 import sinon from 'sinon';
 
 test('Build with default dependencies', t => {
     const scraper = yahooScraper();
-    t.is(scraper.httpClient, httpClient);
+    t.truthy(scraper.httpClient);
 });
 
 function stubHttpClientGets(data) {

@@ -20,7 +20,7 @@ app.use(routes);
 // Global error handling
 app.use((err, _req, res, next) => {
   console.error(err.stack)
-  res.status(500).send(err.message || 'Something broke!')
+  res.status(500).send('Something broke!')
 });
 
 app.listen(port, () => {

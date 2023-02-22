@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export default {
+export default () => ({
   get(...args) {
     return axios.get(...args);
   }
-};
+});

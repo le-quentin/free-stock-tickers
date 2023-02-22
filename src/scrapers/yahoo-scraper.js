@@ -1,11 +1,11 @@
-import _httpClient from '@free-stock-tickers/http/http-client.js';
+import defaultHttpClient from '@free-stock-tickers/http/http-client.js';
 import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
 
 class YahooScrapper {
-  constructor(dependencies) {
-    this.httpClient = dependencies.httpClient;
+  constructor({ httpClient = defaultHttpClient() }) {
+    this.httpClient = httpClient;
   }
   async getCurrentValue(code) {
     const url = await getPageLink(code);
@@ -35,6 +35,6 @@ async function getPageLink(code) {
 }
 
 
-export default function({ httpClient = _httpClient } = {}) {
-  return new YahooScrapper({httpClient});
+export default function(dependencies = {}) {
+  return new YahooScrapper(dependencies);
 }
