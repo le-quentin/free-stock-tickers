@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import Scraper from './scrapers/investing-scraper.js';
+import Scraper from '#free-stock-tickers/scrapers/investing-scraper.js';
 import buildTickersService from '#free-stock-tickers/service/tickersService.js';
 
 const router = Router();

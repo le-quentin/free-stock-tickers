@@ -3,7 +3,10 @@ import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.investing.com';
 
-class InvestingScraper { 
+export class InvestingScraper { 
+
+  httpClient: any;
+
   constructor({ httpClient = defaultHttpClient() }) {
     this.httpClient = httpClient;
   }

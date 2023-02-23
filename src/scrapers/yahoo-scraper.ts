@@ -3,10 +3,14 @@ import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
 
-class YahooScrapper {
+export class YahooScrapper {
+
+  httpClient: any;
+
   constructor({ httpClient = defaultHttpClient() }) {
     this.httpClient = httpClient;
   }
+
   async getCurrentValue(code) {
     const url = await getPageLink(code);
     console.log(`Scraping ${url}`);
