@@ -105,3 +105,6 @@ dist
 
 # Test coverage with c8
 coverage
+
+# Typescript built dir
+built

@@ -1,8 +1,12 @@
 {
+	"include": ["./src/**/*"],
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
 			"#free-stock-tickers/*": ["src/*"]
-		}
+		},
+		"outDir": "./built",
+		"allowJs": true,
+		"target": "ES6"
 	}
 }
