@@ -1,27 +1,29 @@
-FROM node:18.14-alpine
+# First stage, copying yarn packages files
+FROM node:18.14-alpine as yarn-packages
 
 # Expose app port, with the APP_PORT env var
 ENV APP_PORT=3000
 EXPOSE ${APP_PORT}
 
-# Create app directory
-WORKDIR /usr/src/app
-
-# Install dependencies
-# Do it by just copying package.json, which means in the absence of changes we can take advantage of docker
-# layers to avoid reinstalling at every build
+WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
-COPY ./src/package.json ./src/
-COPY ./src/http/package.json ./src/http/
-COPY ./src/scrapers/package.json ./src/scrapers/
-COPY ./src/service/package.json ./src/service/
-RUN yarn install
+
+# Copy whole app, then remove everything but the package.json files
+COPY src src
+RUN find src \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
+
+#Second stage, using the previous image to build the app 
+FROM node:18.14-alpine
+
+WORKDIR /app
+COPY --from=yarn-packages /app .
+
+# Install all dependencies
+RUN yarn install --frozen-lockfile
 
 # Bundle app source
 COPY . .
 
 # Run the app
 CMD [ "yarn", "start"]
-
-
