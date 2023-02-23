@@ -292,7 +292,7 @@ root.App.main = {"context":{"dispatcher":{"stores":"U2FsdGVkX1+0BQ4chASAJ2tLVHz7
 <script>window.webpackPublicPath='https://s.yimg.com/uc/finance/dd-site/js/';</script></body></html>
 `;
 
-import yahooScraper from '@free-stock-tickers/scrapers/yahoo-scraper.js';
+import yahooScraper from '#free-stock-tickers/scrapers/yahoo-scraper.js';
 import test from 'ava';
 import sinon from 'sinon';
 

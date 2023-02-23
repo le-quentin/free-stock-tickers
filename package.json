@@ -4,6 +4,9 @@
   "description": "Freely serve live stock information by scraping web pages",
   "type": "module",
   "main": "src/app.js",
+  "imports": {
+    "#free-stock-tickers/*": { "node": "./src/*" }
+  },
   "scripts": {
     "test": "c8 --all ava",
     "start": "node src/app.js",
@@ -19,8 +22,6 @@
     "url": "https://github.com/le-quentin/free-stock-tickers/issues"
   },
   "homepage": "https://github.com/le-quentin/free-stock-tickers#readme",
-  "private": true,
-  "workspaces": ["src/*"],
   "dependencies": {
     "axios": "^1.3.3",
     "cheerio": "^1.0.0-rc.12",

@@ -1,4 +1,4 @@
-import buildService from '@free-stock-tickers/service/tickersService.js';
+import buildService from '#free-stock-tickers/service/tickersService.js';
 
 import test from 'ava';
 import sinon from 'sinon';

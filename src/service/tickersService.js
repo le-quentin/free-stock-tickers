@@ -1,5 +1,5 @@
-import defaultInvestingScraper from '@free-stock-tickers/scrapers/investing-scraper.js';
-import defaultYahooScraper from '@free-stock-tickers/scrapers/yahoo-scraper.js';
+import defaultInvestingScraper from '#free-stock-tickers/scrapers/investing-scraper.js';
+import defaultYahooScraper from '#free-stock-tickers/scrapers/yahoo-scraper.js';
 
 const YAHOO_CODE_REGEX = /^[A-Z]{2,5}(\.[A-Z]{2,5})?$/
 
