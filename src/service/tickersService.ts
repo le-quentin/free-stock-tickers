@@ -16,7 +16,7 @@ class TickersService {
     this.yahooScraper = yahooScraper;
   }
 
-  async findOne({ searchString }) {
+  async findOne(searchString: string): Promise<number> {
     if (searchString.match(YAHOO_CODE_REGEX)) {
       return await this.yahooScraper.getCurrentValue(searchString);
     }
