@@ -1,0 +1,16 @@
+{
+	"include": ["./src/**/*", "./test/**/*"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#free-stock-tickers/*": ["src/*"],
+			"cheerio": ["./node_modules/cheerio/lib/index.d.ts"]
+		},
+		"outDir": "./built",
+		"allowJs": true,
+		"target": "ES6",
+		"module": "node16",
+
+		"allowSyntheticDefaultImports": true
+	}
+}

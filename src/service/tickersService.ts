@@ -1,9 +1,13 @@
-import defaultInvestingScraper from '#free-stock-tickers/scrapers/investing-scraper.js';
-import defaultYahooScraper from '#free-stock-tickers/scrapers/yahoo-scraper.js';
+import defaultInvestingScraper, {InvestingScraper} from '#free-stock-tickers/scrapers/investing-scraper.js';
+import defaultYahooScraper, {YahooScrapper} from '#free-stock-tickers/scrapers/yahoo-scraper.js';
 
 const YAHOO_CODE_REGEX = /^[A-Z]{2,5}(\.[A-Z]{2,5})?$/
 
 class TickersService {
+
+  investingScraper: InvestingScraper;
+  yahooScraper: YahooScrapper;
+
   constructor({
     investingScraper = defaultInvestingScraper(),
     yahooScraper = defaultYahooScraper(),
@@ -12,7 +16,7 @@ class TickersService {
     this.yahooScraper = yahooScraper;
   }
 
-  async findOne({ searchString }) {
+  async findOne(searchString: string): Promise<number> {
     if (searchString.match(YAHOO_CODE_REGEX)) {
       return await this.yahooScraper.getCurrentValue(searchString);
     }

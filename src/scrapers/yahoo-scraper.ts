@@ -3,11 +3,15 @@ import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
 
-class YahooScrapper {
+export class YahooScrapper {
+
+  httpClient: any;
+
   constructor({ httpClient = defaultHttpClient() }) {
     this.httpClient = httpClient;
   }
-  async getCurrentValue(code) {
+
+  async getCurrentValue(code: string): Promise<number> {
     const url = await getPageLink(code);
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
@@ -21,7 +25,7 @@ class YahooScrapper {
   }
 }
 
-function searchValueInBody(body) {
+function searchValueInBody(body: string) {
   const $ = cheerio.load(body);
 
   let tag = $('#quote-header-info [data-field="regularMarketPrice"]');
@@ -30,7 +34,7 @@ function searchValueInBody(body) {
   throw new Error('Cannot find relevant html tag in yahoo.com page!');
 }
 
-async function getPageLink(code) {
+async function getPageLink(code: string) {
   return `${ROOT_URL}/quote/${code}`
 }
 

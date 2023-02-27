@@ -301,7 +301,7 @@ test('Build with default dependencies', t => {
     t.truthy(scraper.httpClient);
 });
 
-function stubHttpClientGets(data) {
+function stubHttpClientGets(data: string) {
     return {
         get: sinon.stub().resolves({
             data,

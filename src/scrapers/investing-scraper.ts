@@ -3,12 +3,15 @@ import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.investing.com';
 
-class InvestingScraper { 
+export class InvestingScraper { 
+
+  httpClient: any;
+
   constructor({ httpClient = defaultHttpClient() }) {
     this.httpClient = httpClient;
   }
 
-  async getCurrentValue(code) {
+  async getCurrentValue(code: string): Promise<number> {
     const url = await getPageLink(this.httpClient, code);
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
@@ -18,11 +21,11 @@ class InvestingScraper {
       throw new Error('Cannot find stock value in investing.com page!');
     }
     console.log(`Value: ${value}`);
-    return value;
+    return Number(value);
   }
 }
 
-function searchValueInBody(body) {
+function searchValueInBody(body: string) {
   const $ = cheerio.load(body);
 
   let tag = $('#last_last');
@@ -34,7 +37,7 @@ function searchValueInBody(body) {
   throw new Error('Couldn\'t find relevant html tag in investing.com page!');
 }
 
-async function getPageLink(httpClient, code) {
+async function getPageLink(httpClient: any, code: string) {
   const searchUrl = `${ROOT_URL}/search/?q=${code}`;
   console.log(`Search url: ${searchUrl}`);
   const {data} = await httpClient.get(searchUrl);

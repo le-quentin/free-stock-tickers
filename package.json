@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "Freely serve live stock information by scraping web pages",
   "type": "module",
-  "main": "src/app.js",
+  "main": "src/app.ts",
   "imports": {
-    "#free-stock-tickers/*": { "node": "./src/*" }
+    "#free-stock-tickers/*": {
+      "node": "./built/src/*"
+    }
   },
   "scripts": {
-    "test": "c8 --all ava",
-    "start": "node src/app.js",
-    "watch": "nodemon src/app.js"
+    "test": "c8 --all --src=built/src ava",
+    "build": "tsc",
+    "start": "node built/src/app.js",
+    "watch": "tsc -w & nodemon -q -w built built/src/app.js"
   },
   "repository": {
     "type": "git",
@@ -28,9 +31,23 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
+    "@ava/typescript": "^3.0.1",
+    "@types/cheerio": "^0.22.31",
+    "@types/express": "^4.17.17",
+    "@types/node": "18.14.0",
+    "@types/sinon": "^10.0.13",
     "ava": "^5.2.0",
     "c8": "^7.13.0",
     "nodemon": "^2.0.20",
-    "sinon": "^15.0.1"
+    "sinon": "^15.0.1",
+    "typescript": "^4.9.5"
+  },
+  "ava": {
+    "typescript": {
+      "rewritePaths": {
+        "test/": "built/test/"
+      },
+      "compile": false
+    }
   }
 }

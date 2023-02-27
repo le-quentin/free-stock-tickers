@@ -15,5 +15,8 @@ RUN yarn install --frozen-lockfile
 # Bundle app source
 COPY . .
 
+# Build the app 
+RUN yarn build
+
 # Run the app
 CMD [ "yarn", "start"]
