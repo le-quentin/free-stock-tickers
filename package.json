@@ -6,14 +6,14 @@
   "main": "src/app.ts",
   "imports": {
     "#free-stock-tickers/*": {
-      "node": "./built/*"
+      "node": "./built/src/*"
     }
   },
   "scripts": {
-    "test": "c8 --all --src=built ava",
+    "test": "c8 --all --src=built/src ava",
     "build": "tsc",
-    "start": "node built/app.js",
-    "watch": "tsc -w & nodemon -q -w built built/app.js"
+    "start": "node built/src/app.js",
+    "watch": "tsc -w & nodemon -q -w built built/src/app.js"
   },
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
   "ava": {
     "typescript": {
       "rewritePaths": {
-        "src/": "built/"
+        "test/": "built/test/"
       },
       "compile": false
     }
