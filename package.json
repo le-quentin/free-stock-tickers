@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Freely serve live stock information by scraping web pages",
   "type": "module",
-  "main": "src/app.ts",
+  "main": "src/index.ts",
   "imports": {
     "#free-stock-tickers/*": {
       "node": "./built/src/*"
@@ -12,8 +12,8 @@
   "scripts": {
     "test": "c8 --all --src=built/src ava",
     "build": "tsc",
-    "start": "node built/src/app.js",
-    "watch": "tsc -w & nodemon -q -w built built/src/app.js"
+    "start": "node built/src/index.js",
+    "watch": "tsc -w & nodemon -q -w built built/src/index.js"
   },
   "repository": {
     "type": "git",

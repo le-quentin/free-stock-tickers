@@ -1,8 +1,6 @@
 import { default as express, Request, Response, NextFunction } from 'express';
 import routes from './routes.js';
 
-const port = process.env.APP_PORT || 3000;
-
 const app = express();
 
 // API call log filter
@@ -23,10 +21,16 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).send('Something broke!')
 });
 
-app.listen(port, () => {
-  console.log(`
-    ----------------------------------------------
-    free-stock-tickers listening on port ${port}
-    ----------------------------------------------
-  `);
-});
+export default { 
+  start() {
+    const port = process.env.APP_PORT || 3000;
+    app.listen(port, () => {
+      console.log(`
+        ----------------------------------------------
+        free-stock-tickers listening on port ${port}
+        ----------------------------------------------
+      `);
+      return Promise.resolve();
+    });
+  }
+};
