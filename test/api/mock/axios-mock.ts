@@ -23,7 +23,7 @@ class AxiosMock implements AxiosInterface {
 
     private constructor() {
         this.pages = new Map([
-            fakeYahooPage('META', 42)
+            fakeYahooPage('META', 42.42)
         ]);
     }
 

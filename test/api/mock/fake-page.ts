@@ -6,7 +6,7 @@ export default function (pageName: string, values: Map<string, string>) {
         {encoding: 'utf-8'}
     );
     values.forEach((value, varName) => {
-        const regex = new RegExp('\$\{' + varName + '\}', 'g');
+        const regex = new RegExp('\\$\\{' + varName + '\\}', 'g');
         content = content.replace(regex, value);
     });
     return content;
