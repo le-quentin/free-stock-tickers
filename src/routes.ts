@@ -1,9 +1,7 @@
 import {Router} from 'express';
-import Scraper from '#free-stock-tickers/scrapers/investing-scraper.js';
 import buildTickersService from '#free-stock-tickers/service/tickersService.js';
 
 const router = Router();
-const scraper = Scraper();
 const tickersService = buildTickersService();
 
 router.get('/tickers', (req, res, next) => {
