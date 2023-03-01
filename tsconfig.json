@@ -4,6 +4,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"#free-stock-tickers/*": ["src/*"],
+			"#test/*": ["test/*"],
 			"cheerio": ["./node_modules/cheerio/lib/index.d.ts"]
 		},
 		"outDir": "./built",

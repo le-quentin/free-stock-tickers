@@ -1,6 +1,6 @@
 import {AxiosInterface} from '#free-stock-tickers/http/http-client.js';
 import {AxiosRequestConfig, AxiosResponse} from 'axios';
-import fakePage from './fake-page.js';
+import * as fakePage from './fake-page.js';
 
 function createAxiosResponseStub(status: number, data: string): Promise<AxiosResponse<any, any>> {
 	return Promise.resolve({
@@ -12,18 +12,6 @@ function createAxiosResponseStub(status: number, data: string): Promise<AxiosRes
 	});
 }
 
-function fakeYahooPage(searchString: string, value: number): [string, string] {
-    return [`https://www.finance.yahoo.com/quote/${searchString}`, fakePage('yahoo-value-page', new Map([[ 'value', `${value}` ]]))];
-}
-
-let investingLinkCount = 0;
-function fakeInvestingPages(searchString: string, value: number): [string, string][] {
-    return [
-        [`https://www.investing.com/search/?q=${searchString}`, fakePage('investing-search-page', new Map([[ 'link', `/link-to-page-${investingLinkCount}` ]]))],
-        [`https://www.investing.com/link-to-page-${investingLinkCount++}`, fakePage('investing-value-page', new Map([[ 'value', `${value}` ]]))]
-    ];
-}
-
 class AxiosMock implements AxiosInterface {
     private static instance: AxiosMock = null;
 
@@ -31,9 +19,9 @@ class AxiosMock implements AxiosInterface {
 
     private constructor() {
         this.pages = new Map([
-            fakeYahooPage('META', 42.42),
-            ...fakeInvestingPages('NL0006454928', 1337),
-        ]);
+            ...fakePage.yahooPages('META', 42.42),
+            ...fakePage.investingPages('NL0006454928', 1337),
+        ].map(page => [page.url, page.content]));
     }
 
     async get(url: string, config?: AxiosRequestConfig<any>): Promise<AxiosResponse<any, any>> {

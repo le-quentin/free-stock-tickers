@@ -7,6 +7,9 @@
   "imports": {
     "#free-stock-tickers/*": {
       "node": "./built/src/*"
+    },
+    "#test/*": {
+      "node": "./built/test/*"
     }
   },
   "scripts": {
