@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import buildTickersService from '#free-stock-tickers/service/tickersService.js';
+import buildTickersService from '#free-stock-tickers/service/tickers-service.js';
 
 const router = Router();
 const tickersService = buildTickersService();
