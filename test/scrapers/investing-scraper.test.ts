@@ -13,14 +13,22 @@ test('Build with default dependencies', t => {
 
 function stubHttpClientGets(pages: FakePage[]) {
     const httpStub = sinon.createStubInstance(HttpClient);
-    pages.forEach(page => httpStub.get.withArgs(page.url).resolves({ data: page.content } as AxiosResponse));
+    pages.forEach(page => httpStub.get.withArgs(page.url).resolves({data: page.content} as AxiosResponse));
     return httpStub;
 }
 
 function stubHttpClientGetWithContent(content: string) {
     const httpStub = sinon.createStubInstance(HttpClient);
-    httpStub.get.resolves({ data: content } as AxiosResponse);
+    httpStub.get.resolves({data: content} as AxiosResponse);
     return httpStub;
+}
+
+function stubHttpClientWithValuePageContent(pages: FakePage[], valuePageContent: string) {
+    pages[1] = {
+        ...pages[1],
+        content: valuePageContent
+    };
+    return stubHttpClientGets(pages);
 }
 
 test('Get value directly with code', async t => {
@@ -55,12 +63,10 @@ test('Throw Error when cannot find link in search page', async t => {
 });
 
 test('Throw Error when cannot find value in value page', async t => {
-    const pages = fakePages.investingPages('aCode', 42.42);
-    pages[1] = {
-        ...pages[1],
-        content: '<html><body>A random page without the tag</body></html>'
-    };
-    const httpClientStub = stubHttpClientGets(pages);
+    const httpClientStub = stubHttpClientWithValuePageContent(
+        fakePages.investingPages('aCode', 42.42),
+        '<html><body>A random page without the tag</body></html>'
+    );
     const scraper = investingScraper({
         httpClient: httpClientStub
     });
@@ -75,12 +81,10 @@ test('Throw Error when cannot find value in value page', async t => {
 });
 
 test('Throw Error when tag 1 has empty value', async t => {
-    const pages = fakePages.investingPages('aCode', 42.42);
-    pages[1] = {
-        ...pages[1],
-        content: `<html><body><span id="last_last">toto</span></body></html>`
-    };
-    const httpClientStub = stubHttpClientGets(pages);
+    const httpClientStub = stubHttpClientWithValuePageContent(
+        fakePages.investingPages('aCode', 42.42),
+        '<html><body><span id="last_last">toto</span></body></html>'
+    );
     const scraper = investingScraper({
         httpClient: httpClientStub
     });
@@ -95,12 +99,10 @@ test('Throw Error when tag 1 has empty value', async t => {
 });
 
 test('Throw Error when tag 2 has empty value', async t => {
-    const pages = fakePages.investingPages('aCode', 42.42);
-    pages[1] = {
-        ...pages[1],
-        content: `<html><body><span data-test="instrument-price-last">toto</span></body></html>`
-    };
-    const httpClientStub = stubHttpClientGets(pages);
+    const httpClientStub = stubHttpClientWithValuePageContent(
+        fakePages.investingPages('aCode', 42.42),
+        '<html><body><span data-test="instrument-price-last">toto</span></body></html>'
+    );
     const scraper = investingScraper({
         httpClient: httpClientStub
     });
