@@ -1,12 +1,12 @@
 import defaultInvestingScraper, {InvestingScraper} from '#free-stock-tickers/scrapers/investing-scraper.js';
-import defaultYahooScraper, {YahooScrapper} from '#free-stock-tickers/scrapers/yahoo-scraper.js';
+import defaultYahooScraper, {YahooScraper} from '#free-stock-tickers/scrapers/yahoo-scraper.js';
 
 const YAHOO_CODE_REGEX = /^[A-Z]{2,5}(\.[A-Z]{2,5})?$/
 
 class TickersService {
 
   investingScraper: InvestingScraper;
-  yahooScraper: YahooScrapper;
+  yahooScraper: YahooScraper;
 
   constructor({
     investingScraper = defaultInvestingScraper(),

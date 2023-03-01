@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
 
-export class YahooScrapper {
+export class YahooScraper {
 
   httpClient: any;
 
@@ -40,5 +40,5 @@ async function getPageLink(code: string) {
 
 
 export default function(dependencies = {}) {
-  return new YahooScrapper(dependencies);
+  return new YahooScraper(dependencies);
 }
