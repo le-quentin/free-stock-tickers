@@ -16,6 +16,14 @@ function fakeYahooPage(searchString: string, value: number): [string, string] {
     return [`https://www.finance.yahoo.com/quote/${searchString}`, fakePage('yahoo-value-page', new Map([[ 'value', `${value}` ]]))];
 }
 
+let investingLinkCount = 0;
+function fakeInvestingPages(searchString: string, value: number): [string, string][] {
+    return [
+        [`https://www.investing.com/search/?q=${searchString}`, fakePage('investing-search-page', new Map([[ 'link', `/link-to-page-${investingLinkCount}` ]]))],
+        [`https://www.investing.com/link-to-page-${investingLinkCount++}`, fakePage('investing-value-page', new Map([[ 'value', `${value}` ]]))]
+    ];
+}
+
 class AxiosMock implements AxiosInterface {
     private static instance: AxiosMock = null;
 
@@ -23,7 +31,8 @@ class AxiosMock implements AxiosInterface {
 
     private constructor() {
         this.pages = new Map([
-            fakeYahooPage('META', 42.42)
+            fakeYahooPage('META', 42.42),
+            ...fakeInvestingPages('NL0006454928', 1337),
         ]);
     }
 
