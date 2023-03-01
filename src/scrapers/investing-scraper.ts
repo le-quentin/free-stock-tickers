@@ -29,12 +29,12 @@ function searchValueInBody(body: string) {
   const $ = cheerio.load(body);
 
   let tag = $('#last_last');
-  if (tag?.text()) return tag.text();
+  if (tag?.text()) return Number(tag.text());
   
   tag = $('[data-test=instrument-price-last]');
-  if (tag?.text()) return tag.text();
+  if (tag?.text()) return Number(tag.text());
 
-  throw new Error('Couldn\'t find relevant html tag in investing.com page!');
+  throw new Error('Cannot find relevant html tag in investing.com value page!');
 }
 
 async function getPageLink(httpClient: any, code: string) {
