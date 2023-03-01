@@ -16,23 +16,24 @@ export class YahooScraper {
     const url = await getPageLink(code);
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
-    const value = searchValueInBody(data);
-    if (!value) {
-      console.error(`Value: ${value}`);
+    const ticker = searchInformationInBody(data);
+    if (!ticker.currentValue) {
+      console.error(`Ticker: ${ticker}`);
       throw new Error('Cannot find stock value in yahoo.com page!');
     }
-    console.log(`Value: ${value}`);
-    return { currentValue: value };
+    console.log(`Ticker: ${ticker}`);
+    return ticker;
   }
 }
 
-function searchValueInBody(body: string) {
+function searchInformationInBody(body: string) {
   const $ = cheerio.load(body);
+  const name = $('#quote-header-info h1')?.text();;
 
-  let tag = $('#quote-header-info [data-field="regularMarketPrice"]');
-  if (tag.length) return Number(tag.attr('value'));
-  
-  throw new Error('Cannot find relevant html tag in yahoo.com page!');
+  const tag = $('#quote-header-info [data-field="regularMarketPrice"]');
+  if (!tag.length) throw new Error('Cannot find relevant html tag in yahoo.com page!');
+
+  return { name, currentValue: Number(tag.attr('value')) };
 }
 
 async function getPageLink(code: string) {

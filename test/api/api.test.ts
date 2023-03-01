@@ -24,7 +24,7 @@ test('Get tickers - fetch META ticker (Yahoo)', async t => {
 	t.is(status, 200);
 	const tickers = parseCsv(data, {columns: true});
 	t.is(tickers.length, 1);
-	t.deepEqual(tickers[0], {currentValue: '42.42'});
+	t.deepEqual(tickers[0], {name: 'Meta Platforms, Inc. (META)', currentValue: '42.42'});
 });
 
 test('Get tickers - fetch NL0006454928 "paper gold" ticker (Investing)', async t => {

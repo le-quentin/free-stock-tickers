@@ -30,11 +30,11 @@ test('Get value directly with code', async t => {
         httpClient: httpClientStub
     });
 
-    const value = await scraper.getTicker('aCode');
+    const ticker = await scraper.getTicker('aCode');
 
     sinon.assert.calledOnce(httpClientStub.get);
     t.regex(httpClientStub.get.getCall(0).args[0], /.*\/aCode.*/);
-    t.deepEqual(value, { currentValue: 172.88 });
+    t.deepEqual(ticker, { name: 'Meta Platforms, Inc. (META)', currentValue: 172.88 });
 });
 
 test('Throw Error when cannot find tag in page', async t => {
