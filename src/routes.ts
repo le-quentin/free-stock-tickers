@@ -22,15 +22,4 @@ router.get('/tickers', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/tickers/:code', (req, res, next) => {
-  const code = req.params.code;
-  console.log(`Code: ${code}`)
-  return scraper.getCurrentValue(code)
-    .then(value => {
-      res.setHeader('Content-Type', 'text/csv');
-      res.send(`currentValue\r\n${value}`);
-    })
-    .catch(next);
-});
-
 export default router;
