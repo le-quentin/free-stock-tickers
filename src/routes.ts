@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import buildTickersService from '#free-stock-tickers/service/tickers-service.js';
+import objectsToCsv from 'objects-to-csv';
 
 const router = Router();
 const tickersService = buildTickersService();
@@ -13,9 +14,10 @@ router.get('/tickers', (req, res, next) => {
 
   console.log(`searchString: ${searchString}`)
   return tickersService.findOne(searchString)
-    .then(value => {
+    .then(async ticker => {
       res.setHeader('Content-Type', 'text/csv');
-      res.send(`currentValue\r\n${value}`);
+      const csv = new objectsToCsv([ticker]);
+      res.send(await csv.toString());
     })
     .catch(next);
 });

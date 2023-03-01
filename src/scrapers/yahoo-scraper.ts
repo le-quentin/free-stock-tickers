@@ -1,5 +1,6 @@
 import defaultHttpClient from '#free-stock-tickers/http/http-client.js';
 import * as cheerio from 'cheerio';
+import {Ticker} from './ticker.js';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
 
@@ -11,7 +12,7 @@ export class YahooScraper {
     this.httpClient = httpClient;
   }
 
-  async getCurrentValue(code: string): Promise<number> {
+  async getTicker(code: string): Promise<Ticker> {
     const url = await getPageLink(code);
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
@@ -21,7 +22,7 @@ export class YahooScraper {
       throw new Error('Cannot find stock value in yahoo.com page!');
     }
     console.log(`Value: ${value}`);
-    return Number(value);
+    return { currentValue: value };
   }
 }
 

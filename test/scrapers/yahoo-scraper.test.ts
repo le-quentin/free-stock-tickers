@@ -30,11 +30,11 @@ test('Get value directly with code', async t => {
         httpClient: httpClientStub
     });
 
-    const value = await scraper.getCurrentValue('aCode');
+    const value = await scraper.getTicker('aCode');
 
     sinon.assert.calledOnce(httpClientStub.get);
     t.regex(httpClientStub.get.getCall(0).args[0], /.*\/aCode.*/);
-    t.is(value, 172.88);
+    t.deepEqual(value, { currentValue: 172.88 });
 });
 
 test('Throw Error when cannot find tag in page', async t => {
@@ -44,7 +44,7 @@ test('Throw Error when cannot find tag in page', async t => {
     });
 
     try {
-        await scraper.getCurrentValue("aCode");
+        await scraper.getTicker("aCode");
     } catch(err) {
         t.regex(err.message, /.*Cannot find relevant html tag.*/);
         sinon.assert.calledOnce(httpClientStub.get);
@@ -65,7 +65,7 @@ test('Throw Error when tag has empty value', async t => {
     });
 
     try {
-        await scraper.getCurrentValue("aCode");
+        await scraper.getTicker("aCode");
     } catch(err) {
         t.regex(err.message, /.*Cannot find stock value.*/);
         sinon.assert.calledOnce(httpClientStub.get);

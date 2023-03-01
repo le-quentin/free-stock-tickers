@@ -1,11 +1,12 @@
-import buildService from '#free-stock-tickers/service/tickersService.js';
+import {Ticker} from '#free-stock-tickers/scrapers/ticker.js';
+import buildService from '#free-stock-tickers/service/tickers-service.js';
 
 import test from 'ava';
 import sinon from 'sinon';
 
-function stubScraperGetCurrentValue(value: number) {
+function stubScraperGetTicker(result: Ticker) {
   return {
-    getCurrentValue: sinon.stub().resolves(value)
+    getTicker: sinon.stub().resolves(result)
   };
 }
 
@@ -17,24 +18,26 @@ test('Build with default dependencies', t => {
 
 ['AA', 'AA.BB', 'ABC', 'CKDU', 'GOOGL', 'MC.PA', 'TTE.PA'].map(searchString => 
   test(`Find value '${searchString}' with Yahoo Scraper`, async t => {
-    const yahooScraperStub = stubScraperGetCurrentValue(42);
+    const ticker = { currentValue: 42 };
+    const yahooScraperStub = stubScraperGetTicker(ticker);
     const service = buildService({yahooScraper: yahooScraperStub})
 
-    const value = await service.findOne('AAAA');
+    const result = await service.findOne('AAAA');
 
-    t.is(value, 42);
-    yahooScraperStub.getCurrentValue.calledOnceWith('AAAA');
+    t.is(result, ticker);
+    yahooScraperStub.getTicker.calledOnceWith('AAAA');
 }));
 
 ['A', '1', 'toto', 'ab', 'AB1C', '_ABC', 'CK-DU',
   'aa.bb', 'ABCDEF', 'AA.ABCDEF', 'a dummy string'].map(searchString => 
   test(`Find value '${searchString}' with Investing Scraper`, async t => {
-    const investingScraperStub = stubScraperGetCurrentValue(42);
+    const ticker = { currentValue: 42 };
+    const investingScraperStub = stubScraperGetTicker(ticker);
     const service = buildService({investingScraper: investingScraperStub})
 
     const value = await service.findOne('aCode');
 
-    t.is(value, 42);
-    investingScraperStub.getCurrentValue.calledOnceWith('aCode');
+    t.is(value, ticker);
+    investingScraperStub.getTicker.calledOnceWith('aCode');
 }));
 
