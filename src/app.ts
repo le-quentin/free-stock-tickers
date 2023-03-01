@@ -9,10 +9,6 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   next();
 });
 
-app.get('/', (_req: Request, res: Response) => {
-  res.send('Hello World!');
-});
-
 app.use(routes);
 
 // Global error handling
