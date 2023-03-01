@@ -12,6 +12,7 @@
   "scripts": {
     "test": "c8 --all --src=built/src --exclude=built/test --exclude=**/index.js ava",
     "build": "tsc",
+    "clean": "rm -rf ./built",
     "start": "node built/src/index.js",
     "watch": "tsc -w & nodemon -q -w built built/src/index.js"
   },
