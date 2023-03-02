@@ -18,7 +18,7 @@ test('Build with default dependencies', t => {
 
 ['AA', 'AA.BB', 'ABC', 'CKDU', 'GOOGL', 'MC.PA', 'TTE.PA'].map(searchString => 
   test(`Find value '${searchString}' with Yahoo Scraper`, async t => {
-    const ticker = sinon.createStubInstance(Ticker);
+    const ticker = {} as Ticker;
     const yahooScraperStub = stubScraperGetTicker(ticker);
     const service = buildService({yahooScraper: yahooScraperStub})
 
@@ -31,7 +31,7 @@ test('Build with default dependencies', t => {
 ['A', '1', 'toto', 'ab', 'AB1C', '_ABC', 'CK-DU',
   'aa.bb', 'ABCDEF', 'AA.ABCDEF', 'a dummy string'].map(searchString => 
   test(`Find value '${searchString}' with Investing Scraper`, async t => {
-    const ticker = sinon.createStubInstance(Ticker);
+    const ticker = {} as Ticker;
     const investingScraperStub = stubScraperGetTicker(ticker);
     const service = buildService({investingScraper: investingScraperStub})
 
