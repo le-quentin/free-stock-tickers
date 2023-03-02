@@ -32,8 +32,25 @@ function stubHttpClientWithValuePageContent(pages: FakePage[], valuePageContent:
     return stubHttpClientGets(pages);
 }
 
-test('Get value directly with code', async t => {
+test('Get value directly with code, first tag', async t => {
     const httpClientStub = stubHttpClientGets(fakePages.investingPages('aCode', 42.42));
+    const scraper = investingScraper({
+        httpClient: httpClientStub
+    });
+
+    const value = await scraper.getTicker('aCode');
+
+    sinon.assert.calledTwice(httpClientStub.get);
+    t.regex(httpClientStub.get.getCall(0).args[0], /.*aCode.*/);
+    t.regex(httpClientStub.get.getCall(1).args[0], /.*\/link-to-page.*/);
+    t.deepEqual(value, new Ticker({ currentValue: 42.42 }));
+});
+
+test('Get value directly with code, second tag', async t => {
+    const httpClientStub = stubHttpClientWithValuePageContent(
+        fakePages.investingPages('aCode', 42.42),
+        '<html><body><span data-test="instrument-price-last">42.42</span></body></html>'
+    );
     const scraper = investingScraper({
         httpClient: httpClientStub
     });

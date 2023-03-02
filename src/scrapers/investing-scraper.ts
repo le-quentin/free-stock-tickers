@@ -16,20 +16,20 @@ export class InvestingScraper {
     const url = await getPageLink(this.httpClient, code);
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
-    const currentValue = searchValueInBody(data);
-    console.log(`Value: ${currentValue}`);
-    return new Ticker({currentValue});
+    const value = searchValueInBody(data);
+    console.log(`Value: ${value}`);
+    return new Ticker({currentValue: Number(value)});
   }
 }
 
-function searchValueInBody(body: string) {
+function searchValueInBody(body: string): string {
   const $ = cheerio.load(body);
 
   let tag = $('#last_last');
-  if (tag?.text()) return Number(tag.text());
+  if (tag?.text()) return tag.text();
 
   tag = $('[data-test=instrument-price-last]');
-  if (tag?.text()) return Number(tag.text());
+  if (tag?.text()) return tag.text();
 
   throw new Error('Cannot find relevant html tag in investing.com value page!');
 }
