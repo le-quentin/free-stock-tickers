@@ -5,6 +5,7 @@ import {FakePage} from '#test/api/mock/fake-page.js';
 import {HttpClient} from '#free-stock-tickers/http/http-client.js';
 import yahooScraper from '#free-stock-tickers/scrapers/yahoo-scraper.js';
 import {AxiosResponse} from 'axios';
+import {Ticker} from '#free-stock-tickers/scrapers/ticker.js';
 
 test('Build with default dependencies', t => {
     const scraper = yahooScraper();
@@ -34,7 +35,7 @@ test('Get value directly with code', async t => {
 
     sinon.assert.calledOnce(httpClientStub.get);
     t.regex(httpClientStub.get.getCall(0).args[0], /.*\/aCode.*/);
-    t.deepEqual(ticker, { name: 'Meta Platforms, Inc. (META)', currentValue: 172.88 });
+    t.deepEqual(ticker, new Ticker({ name: 'Meta Platforms, Inc. (META)', currentValue: 172.88 }));
 });
 
 test('Throw Error when cannot find tag in page', async t => {

@@ -22,7 +22,7 @@ export class YahooScraper {
       throw new Error('Cannot find stock value in yahoo.com page!');
     }
     console.log(`Ticker: ${ticker}`);
-    return ticker;
+    return new Ticker(ticker);
   }
 }
 

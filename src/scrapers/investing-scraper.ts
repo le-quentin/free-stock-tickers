@@ -22,7 +22,7 @@ export class InvestingScraper {
       throw new Error('Cannot find stock value in investing.com page!');
     }
     console.log(`Value: ${value}`);
-    return { currentValue: value };
+    return new Ticker({ currentValue: value });
   }
 }
 
