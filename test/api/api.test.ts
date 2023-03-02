@@ -33,7 +33,7 @@ test('Get tickers - fetch NL0006454928 "paper gold" ticker (Investing)', async t
 	t.is(status, 200);
 	const tickers = parseCsv(data, {columns: true});
 	t.is(tickers.length, 1);
-	t.deepEqual(tickers[0], {currentValue: '1337'});
+	t.deepEqual(tickers[0], {currentValue: '1337', name: ''});
 });
 
 test('Get tickers - fetch without searchString and get 400', async t => {
