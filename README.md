@@ -1,6 +1,8 @@
 # free-stock-tickers 📈
 Minimalistic REST API to fetch live stock data by scraping web pages. 
 
+*Built for both AMD64 💻 and ARM-v7! 🍇*
+
 I'm building some spreadsheets to help me manage my stocks portfolio. I needed a way to get live stock data. And for some reason, it felt weird to me to pay money in order to build my portfolio management tool... So I came up with this simple web scraping solution!
 
 Since I intended it to be used in spreadsheets, the API replies in CSV format.
