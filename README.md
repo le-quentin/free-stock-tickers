@@ -1,7 +1,9 @@
 # free-stock-tickers 📈
-Minimalistic REST API to fetch live stock data by scraping web pages. 
+Ask for a stock, receive its live price information, in CSV format. Plain. Simple. Free.
 
 *Built for both AMD64 💻 and ARM-v7! 🍇*
+
+## But... why?
 
 I'm building some spreadsheets to help me manage my stocks portfolio. I needed a way to get live stock data. And for some reason, it felt weird to me to pay money in order to build my portfolio management tool... So I came up with this simple web scraping solution!
 
@@ -19,14 +21,14 @@ $> curl http://<host>:<port>/tickers?searchString=<string>
 
 ### Examples:
 
-`/tickers?searchString=META` => the Facebook ticker
-`/tickers?searchString=MC.PA` => the LVMH ticker
-`/tickers?searchString=LU1829219127` => Amundi ETF Euro Corporate Bond ticker
+- `/tickers?searchString=META` => the Facebook ticker
+- `/tickers?searchString=MC.PA` => the LVMH ticker
+- `/tickers?searchString=LU1829219127` => Amundi ETF Euro Corporate Bond ticker
 
 ### Details: 
 
 For searchString, you should provide:
-- When possible (most common use case), the stock symbol: for example `META` for Facebook. If the stock isn't american, you must also provide the index symbol: for example, `MC.PA` for LVMH, France. If you're not sure of what to provide, search for your stock in `finance.yahoo.com`, the complete symbol will appear in your stock's page URL.
+- When possible (most common use case), the stock symbol: for example `META` for Facebook. If the stock isn't american, you must also provide the index symbol: for example, `MC.PA` for LVMH, France. If you're not sure about what to provide, search for your stock in `finance.yahoo.com`, the complete symbol will appear in your stock's page URL.
 - When your product doesn't have a symbol, and/or isn't listed in `finance.yahoo.com` (which might be the case for some ETF, or some niche non-stock products), provide the ISIN code instead.
 
 ## Deploy
@@ -73,9 +75,9 @@ $> docker build .
 The project uses Github Actions to automatically publish new versions whenever I push; if you forked this project, you will need to either adapt the scripts under `.github/workflows` to work with your own repository, or remove the folder if you don't wanna use this feature.
 
 ## Todo - things I might change/add 
-- [x] Yarn for modules management
+- [x] use Yarn
 - [x] /tickers?searchString=XXX route, scraping investing or yahoo depending of the format of the string
-- [ ] Return ticker name (useful to check if we did fetch the right ticker)
+- [x] Return ticker name (useful to check if we did fetch the right ticker)
 - [ ] Use a cache, if failing to get value, return last known (add valueTime to the return)
 - [ ] Profiling => if cheerio bottleneck, then worker threads?
 - [ ] Integration tests for scrapers (useful to notify if website has breaking changes)
