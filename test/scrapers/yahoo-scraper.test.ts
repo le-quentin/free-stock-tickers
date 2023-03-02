@@ -55,23 +55,3 @@ test('Throw Error when cannot find tag in page', async t => {
     t.fail('Should have thrown');
 });
 
-test('Throw Error when tag has empty value', async t => {
-    const httpClientStub = stubHttpClientGetWithContent(`<html><body>
-        <div id="quote-header-info">
-            <span data-field="regularMarketPrice" value="toto"/>
-        </div>
-        </body></html>`);
-    const scraper = yahooScraper({ 
-        httpClient: httpClientStub
-    });
-
-    try {
-        await scraper.getTicker("aCode");
-    } catch(err) {
-        t.regex(err.message, /.*Cannot find stock value.*/);
-        sinon.assert.calledOnce(httpClientStub.get);
-        t.regex(httpClientStub.get.getCall(0).args[0], /.*\/aCode.*/);
-        return;
-    }
-    t.fail('Should have thrown');
-});

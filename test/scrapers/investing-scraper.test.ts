@@ -63,7 +63,7 @@ test('Throw Error when cannot find link in search page', async t => {
     t.fail('Should have thrown');
 });
 
-test('Throw Error when cannot find value in value page', async t => {
+test('Throw Error when cannot find tag in value page', async t => {
     const httpClientStub = stubHttpClientWithValuePageContent(
         fakePages.investingPages('aCode', 42.42),
         '<html><body>A random page without the tag</body></html>'
@@ -81,38 +81,3 @@ test('Throw Error when cannot find value in value page', async t => {
     t.fail('Should have thrown');
 });
 
-test('Throw Error when tag 1 has empty value', async t => {
-    const httpClientStub = stubHttpClientWithValuePageContent(
-        fakePages.investingPages('aCode', 42.42),
-        '<html><body><span id="last_last">toto</span></body></html>'
-    );
-    const scraper = investingScraper({
-        httpClient: httpClientStub
-    });
-
-    try {
-        await scraper.getTicker('aCode');
-    } catch (err) {
-        t.regex(err.message, /.*Cannot find stock value.*page.*/);
-        return;
-    }
-    t.fail('Should have thrown');
-});
-
-test('Throw Error when tag 2 has empty value', async t => {
-    const httpClientStub = stubHttpClientWithValuePageContent(
-        fakePages.investingPages('aCode', 42.42),
-        '<html><body><span data-test="instrument-price-last">toto</span></body></html>'
-    );
-    const scraper = investingScraper({
-        httpClient: httpClientStub
-    });
-
-    try {
-        await scraper.getTicker('aCode');
-    } catch (err) {
-        t.regex(err.message, /.*Cannot find stock value.*page.*/);
-        return;
-    }
-    t.fail('Should have thrown');
-});

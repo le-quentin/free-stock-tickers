@@ -4,11 +4,11 @@ import {Ticker} from './ticker.js';
 
 const ROOT_URL = 'https://www.investing.com';
 
-export class InvestingScraper { 
+export class InvestingScraper {
 
   httpClient: HttpClient;
 
-  constructor({ httpClient = defaultHttpClient() }) {
+  constructor({httpClient = defaultHttpClient()}) {
     this.httpClient = httpClient;
   }
 
@@ -16,13 +16,9 @@ export class InvestingScraper {
     const url = await getPageLink(this.httpClient, code);
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
-    const value = searchValueInBody(data);
-    if (!value) {
-      console.error(`Value: ${value}`);
-      throw new Error('Cannot find stock value in investing.com page!');
-    }
-    console.log(`Value: ${value}`);
-    return new Ticker({ currentValue: value });
+    const currentValue = searchValueInBody(data);
+    console.log(`Value: ${currentValue}`);
+    return new Ticker({currentValue});
   }
 }
 
@@ -31,7 +27,7 @@ function searchValueInBody(body: string) {
 
   let tag = $('#last_last');
   if (tag?.text()) return Number(tag.text());
-  
+
   tag = $('[data-test=instrument-price-last]');
   if (tag?.text()) return Number(tag.text());
 
@@ -52,6 +48,6 @@ async function getPageLink(httpClient: any, code: string) {
   return ROOT_URL + link;
 }
 
-export default function(dependencies = {}) {
+export default function (dependencies = {}) {
   return new InvestingScraper(dependencies);
 }

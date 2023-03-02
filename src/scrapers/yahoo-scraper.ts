@@ -17,10 +17,6 @@ export class YahooScraper {
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
     const ticker = searchInformationInBody(data);
-    if (!ticker.currentValue) {
-      console.error(`Ticker: ${ticker}`);
-      throw new Error('Cannot find stock value in yahoo.com page!');
-    }
     console.log(`Ticker: ${ticker}`);
     return new Ticker(ticker);
   }
