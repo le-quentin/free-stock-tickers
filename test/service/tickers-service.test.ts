@@ -22,10 +22,10 @@ test('Build with default dependencies', t => {
     const yahooScraperStub = stubScraperGetTicker(ticker);
     const service = buildService({yahooScraper: yahooScraperStub})
 
-    const result = await service.findOne('AAAA');
+    const result = await service.findOne(searchString);
 
     t.is(result, ticker);
-    yahooScraperStub.getTicker.calledOnceWith('AAAA');
+    yahooScraperStub.getTicker.calledOnceWith(searchString);
 }));
 
 ['A', '1', 'toto', 'ab', 'AB1C', '_ABC', 'CK-DU',
@@ -35,9 +35,9 @@ test('Build with default dependencies', t => {
     const investingScraperStub = stubScraperGetTicker(ticker);
     const service = buildService({investingScraper: investingScraperStub})
 
-    const value = await service.findOne('aCode');
+    const value = await service.findOne(searchString);
 
     t.is(value, ticker);
-    investingScraperStub.getTicker.calledOnceWith('aCode');
+    investingScraperStub.getTicker.calledOnceWith(searchString);
 }));
 
