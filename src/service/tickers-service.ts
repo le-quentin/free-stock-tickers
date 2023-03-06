@@ -2,7 +2,7 @@ import defaultInvestingScraper, {InvestingScraper} from '#free-stock-tickers/scr
 import {Ticker} from '#free-stock-tickers/scrapers/ticker.js';
 import defaultYahooScraper, {YahooScraper} from '#free-stock-tickers/scrapers/yahoo-scraper.js';
 
-const YAHOO_CODE_REGEX = /^[A-Z]{2,5}(\.[A-Z]{2,5})?$/
+const YAHOO_CODE_REGEX = /^[A-Z][A-Z0-9]{1,4}(\.[A-Z]{2,5})?$/
 
 class TickersService {
 

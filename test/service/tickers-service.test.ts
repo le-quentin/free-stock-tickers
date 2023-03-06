@@ -16,7 +16,7 @@ test('Build with default dependencies', t => {
   t.truthy(service.investingScraper);
 });
 
-['AA', 'AA.BB', 'ABC', 'CKDU', 'GOOGL', 'MC.PA', 'TTE.PA'].map(searchString => 
+['AA', 'AA.BB', 'ABC', 'CKDU', 'GOOGL', 'MC.PA', 'TTE.PA', 'E40.PA'].map(searchString => 
   test(`Find value '${searchString}' with Yahoo Scraper`, async t => {
     const ticker = {} as Ticker;
     const yahooScraperStub = stubScraperGetTicker(ticker);
@@ -28,7 +28,7 @@ test('Build with default dependencies', t => {
     yahooScraperStub.getTicker.calledOnceWith(searchString);
 }));
 
-['A', '1', 'toto', 'ab', 'AB1C', '_ABC', 'CK-DU',
+['A', '1', 'toto', 'ab', '_ABC', 'CK-DU',
   'aa.bb', 'ABCDEF', 'AA.ABCDEF', 'a dummy string'].map(searchString => 
   test(`Find value '${searchString}' with Investing Scraper`, async t => {
     const ticker = {} as Ticker;
