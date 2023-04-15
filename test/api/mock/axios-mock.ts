@@ -1,4 +1,4 @@
-import {AxiosInterface} from '#free-stock-tickers/http/http-client.js';
+import {HttpInterface} from '#free-stock-tickers/http/http-client.js';
 import {AxiosRequestConfig, AxiosResponse} from 'axios';
 import * as fakePage from './fake-page.js';
 
@@ -12,7 +12,7 @@ function createAxiosResponseStub(status: number, data: string): Promise<AxiosRes
 	});
 }
 
-class AxiosMock implements AxiosInterface {
+class AxiosMock implements HttpInterface {
     private static instance: AxiosMock = null;
 
     private pages: Map<string, string>;
