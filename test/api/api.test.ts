@@ -1,14 +1,14 @@
 import test from 'ava';
 import app from '#free-stock-tickers/app.js';
-import axiosMock from './mock/axios-mock.js';
-import {HttpClient} from '#free-stock-tickers/http/http-client.js';
+import httpMock from './mock/axios-mock.js';
+import * as httpClient from '#free-stock-tickers/http/http-client.js';
 import axios from 'axios';
 import {parse as parseCsv} from 'csv-parse/sync';
 
 const APP_PORT = 42424;
 
 test.before('Mock outbound calls', _t => {
-	HttpClient.use(axiosMock());
+	httpClient.use(httpMock());
 });
 
 test.before('Start application', _t => {
