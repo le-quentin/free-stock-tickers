@@ -1,16 +1,25 @@
-import {AxiosRequestConfig, AxiosResponse, default as defaultAxios} from 'axios';
-
-export interface HttpResponse<T> {
+export interface HttpResponse<T = any> {
   data: T,
   status: number
 }
 export interface HttpInterface {
-  get<T=string>(url: string, config?: any): Promise<HttpResponse<T>>;
+  get(url: string, config?: any): Promise<HttpResponse<string>>;
+}
+
+const defaultHttp = {
+  async get(url: string, config?: any): Promise<HttpResponse<string>> {
+    const response = await fetch(url, config);
+    const data = await response.text();
+    return {
+      data,
+      status: response.status,
+    }
+  }
 }
 
 export class HttpClient {
 
-  private static http: HttpInterface = defaultAxios;
+  private static http: HttpInterface = defaultHttp;
 
   get(url: string, config?: any) {
     return HttpClient.http.get(url, config);
@@ -19,8 +28,8 @@ export class HttpClient {
 
   // "quick-win" way to do dependency injection here. 
   // Using a DI framework deemed not worth it in this small project
-  static use(axios: HttpInterface) {
-    HttpClient.http = axios;
+  static use(client: HttpInterface) {
+    HttpClient.http = client;
   }
 }
 

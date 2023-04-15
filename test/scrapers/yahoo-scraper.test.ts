@@ -2,9 +2,8 @@ import test from 'ava';
 import sinon from 'sinon';
 import * as fakePages from '#test/api/mock/fake-page.js';
 import {FakePage} from '#test/api/mock/fake-page.js';
-import {HttpClient} from '#free-stock-tickers/http/http-client.js';
+import {HttpClient, HttpResponse} from '#free-stock-tickers/http/http-client.js';
 import yahooScraper from '#free-stock-tickers/scrapers/yahoo-scraper.js';
-import {AxiosResponse} from 'axios';
 import {Ticker} from '#free-stock-tickers/scrapers/ticker.js';
 
 test('Build with default dependencies', t => {
@@ -14,13 +13,13 @@ test('Build with default dependencies', t => {
 
 function stubHttpClientGets(pages: FakePage[]) {
     const httpStub = sinon.createStubInstance(HttpClient);
-    pages.forEach(page => httpStub.get.withArgs(page.url).resolves({data: page.content} as AxiosResponse));
+    pages.forEach(page => httpStub.get.withArgs(page.url).resolves({data: page.content} as HttpResponse<string>));
     return httpStub;
 }
 
 function stubHttpClientGetWithContent(content: string) {
     const httpStub = sinon.createStubInstance(HttpClient);
-    httpStub.get.resolves({data: content} as AxiosResponse);
+    httpStub.get.resolves({data: content} as HttpResponse<string>);
     return httpStub;
 }
 

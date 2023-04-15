@@ -1,8 +1,7 @@
-import {HttpInterface} from '#free-stock-tickers/http/http-client.js';
-import {AxiosRequestConfig, AxiosResponse} from 'axios';
+import {HttpInterface, HttpResponse} from '#free-stock-tickers/http/http-client.js';
 import * as fakePage from './fake-page.js';
 
-function createAxiosResponseStub(status: number, data: string): Promise<AxiosResponse<any, any>> {
+function createResponseStub(status: number, data: string): Promise<HttpResponse<any>> {
 	return Promise.resolve({
 		data,
 		status,
@@ -12,8 +11,8 @@ function createAxiosResponseStub(status: number, data: string): Promise<AxiosRes
 	});
 }
 
-class AxiosMock implements HttpInterface {
-    private static instance: AxiosMock = null;
+class HttpMock implements HttpInterface {
+    private static instance: HttpMock = null;
 
     private pages: Map<string, string>;
 
@@ -24,20 +23,20 @@ class AxiosMock implements HttpInterface {
         ].map(page => [page.url, page.content]));
     }
 
-    async get(url: string, config?: AxiosRequestConfig<any>): Promise<AxiosResponse<any, any>> {
-        console.log('Calling mock Axios');
+    async get(url: string, config?: any): Promise<HttpResponse<string>> {
+        console.log('Calling mock Http');
         if(!this.pages.has(url)) {
-            return createAxiosResponseStub(404, 'Can\'t find the page!');
+            return createResponseStub(404, 'Can\'t find the page!');
         }
-        return createAxiosResponseStub(200, this.pages.get(url));
+        return createResponseStub(200, this.pages.get(url));
     }
 
-    static get(): AxiosMock {
-        if (!AxiosMock.instance) {
-            AxiosMock.instance = new AxiosMock();
+    static get(): HttpMock {
+        if (!HttpMock.instance) {
+            HttpMock.instance = new HttpMock();
         }
-        return AxiosMock.instance;
+        return HttpMock.instance;
     }
 }
 
-export default AxiosMock.get;
+export default HttpMock.get;
