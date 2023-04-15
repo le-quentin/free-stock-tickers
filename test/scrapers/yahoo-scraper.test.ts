@@ -2,7 +2,7 @@ import test from 'ava';
 import sinon from 'sinon';
 import * as fakePages from '#test/api/mock/fake-page.js';
 import {FakePage} from '#test/api/mock/fake-page.js';
-import {HttpClient, HttpResponse} from '#free-stock-tickers/http/http-client.js';
+import {HttpClientStaticProxy as HttpClient, HttpResponse} from '#free-stock-tickers/http/http-client.js';
 import yahooScraper from '#free-stock-tickers/scrapers/yahoo-scraper.js';
 import {Ticker} from '#free-stock-tickers/scrapers/ticker.js';
 

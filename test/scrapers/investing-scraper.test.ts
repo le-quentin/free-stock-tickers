@@ -4,7 +4,7 @@ import * as fakePages from '#test/api/mock/fake-page.js';
 import {FakePage} from '#test/api/mock/fake-page.js';
 import investingScraper from '#free-stock-tickers/scrapers/investing-scraper.js';
 import {AxiosResponse} from 'axios';
-import {HttpClient} from '#free-stock-tickers/http/http-client.js';
+import {HttpClientStaticProxy as HttpClient} from '#free-stock-tickers/http/http-client.js';
 import {Ticker} from '#free-stock-tickers/scrapers/ticker.js';
 
 test('Build with default dependencies', t => {

@@ -1,4 +1,4 @@
-import {HttpInterface, HttpResponse} from '#free-stock-tickers/http/http-client.js';
+import {HttpClient, HttpResponse} from '#free-stock-tickers/http/http-client.js';
 import * as fakePage from './fake-page.js';
 
 function createResponseStub(status: number, data: string): Promise<HttpResponse<any>> {
@@ -11,7 +11,7 @@ function createResponseStub(status: number, data: string): Promise<HttpResponse<
 	});
 }
 
-class HttpMock implements HttpInterface {
+class HttpMock implements HttpClient {
     private static instance: HttpMock = null;
 
     private pages: Map<string, string>;
