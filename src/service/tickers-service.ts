@@ -1,20 +1,19 @@
-import defaultInvestingScraper, {InvestingScraper} from '#free-stock-tickers/scrapers/investing-scraper.js';
+import defaultInvestingScraper from '#free-stock-tickers/scrapers/investing-scraper.js';
+import defaultYahooScraper from '#free-stock-tickers/scrapers/yahoo-scraper.js';
+import Scraper from '#free-stock-tickers/scrapers/scraper.js';
 import {Ticker} from '#free-stock-tickers/scrapers/ticker.js';
-import defaultYahooScraper, {YahooScraper} from '#free-stock-tickers/scrapers/yahoo-scraper.js';
+import ScraperRetryDecorator from '#free-stock-tickers/scrapers/retry-scraper-decorator.js';
 
 const YAHOO_CODE_REGEX = /^[A-Z][A-Z0-9]{1,4}(\.[A-Z]{2,5})?$/
 
 class TickersService {
 
-  investingScraper: InvestingScraper;
-  yahooScraper: YahooScraper;
+  private investingScraper: Scraper;
+  private yahooScraper: Scraper;
 
-  constructor({
-    investingScraper = defaultInvestingScraper(),
-    yahooScraper = defaultYahooScraper(),
-  }) {
-    this.investingScraper = investingScraper;
-    this.yahooScraper = yahooScraper;
+  constructor(dependencies) {
+    this.investingScraper = dependencies.investingScraper;
+    this.yahooScraper = dependencies.yahooScraper;
   }
 
   async findOne(searchString: string): Promise<Ticker> {
@@ -25,6 +24,9 @@ class TickersService {
   }
 }
 
-export default function(dependencies = {}) {
+export default function (dependencies: {investingScraper: Scraper, yahooScraper: Scraper} = {
+  investingScraper: new ScraperRetryDecorator(defaultInvestingScraper(), 5),
+  yahooScraper: new ScraperRetryDecorator(defaultYahooScraper(), 3),
+}) {
   return new TickersService(dependencies);
 }

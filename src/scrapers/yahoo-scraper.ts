@@ -1,10 +1,11 @@
 import defaultHttpClient, {HttpClient} from '#free-stock-tickers/http/http-client.js';
 import * as cheerio from 'cheerio';
+import Scraper from './scraper.js';
 import {Ticker} from './ticker.js';
 
 const ROOT_URL = 'https://www.finance.yahoo.com';
 
-export class YahooScraper {
+export class YahooScraper implements Scraper {
 
   httpClient: HttpClient;
 
@@ -17,7 +18,7 @@ export class YahooScraper {
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
     const ticker = searchInformationInBody(data);
-    console.log(`Ticker: ${ticker}`);
+    console.info('Ticker:', ticker);
     return new Ticker(ticker);
   }
 }
