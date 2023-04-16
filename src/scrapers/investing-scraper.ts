@@ -1,10 +1,11 @@
 import defaultHttpClient, {HttpClient} from '../http/http-client.js';
 import * as cheerio from 'cheerio';
 import {Ticker} from './ticker.js';
+import Scraper from './scraper.js';
 
 const ROOT_URL = 'https://www.investing.com';
 
-export class InvestingScraper {
+export class InvestingScraper implements Scraper {
 
   httpClient: HttpClient;
 
