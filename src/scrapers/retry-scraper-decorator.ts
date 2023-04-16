@@ -23,6 +23,7 @@ export function ObjectRetryWrapper<T extends object>(decorated: T, f: RetryableF
       return f.apply(decorated, args)
         .catch((err: any) => {
           if (nthAttempt >= retries) throw err;
+          console.log(`Failed with args [${args}]. Attempting try#${nthAttempt+1}`);
           return tryApply(nthAttempt + 1);
         });
     };
