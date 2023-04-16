@@ -25,7 +25,7 @@ class TickersService {
 }
 
 export default function (dependencies: {investingScraper: Scraper, yahooScraper: Scraper} = {
-  investingScraper: new ScraperRetryDecorator(defaultInvestingScraper(), 3),
+  investingScraper: new ScraperRetryDecorator(defaultInvestingScraper(), 5),
   yahooScraper: new ScraperRetryDecorator(defaultYahooScraper(), 3),
 }) {
   return new TickersService(dependencies);
