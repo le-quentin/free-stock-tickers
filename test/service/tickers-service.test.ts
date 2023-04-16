@@ -13,14 +13,13 @@ function stubScraperGetTicker(result: Ticker) {
 test('Build with default dependencies', t => {
   const service = buildService();
   t.truthy(service);
-  t.truthy(service.investingScraper);
 });
 
 ['AA', 'AA.BB', 'ABC', 'CKDU', 'GOOGL', 'MC.PA', 'TTE.PA', 'E40.PA'].map(searchString => 
   test(`Find value '${searchString}' with Yahoo Scraper`, async t => {
     const ticker = {} as Ticker;
     const yahooScraperStub = stubScraperGetTicker(ticker);
-    const service = buildService({yahooScraper: yahooScraperStub})
+    const service = buildService({yahooScraper: yahooScraperStub, investingScraper: undefined})
 
     const result = await service.findOne(searchString);
 
@@ -33,7 +32,7 @@ test('Build with default dependencies', t => {
   test(`Find value '${searchString}' with Investing Scraper`, async t => {
     const ticker = {} as Ticker;
     const investingScraperStub = stubScraperGetTicker(ticker);
-    const service = buildService({investingScraper: investingScraperStub})
+    const service = buildService({investingScraper: investingScraperStub, yahooScraper: undefined})
 
     const value = await service.findOne(searchString);
 
