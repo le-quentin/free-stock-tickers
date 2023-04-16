@@ -18,7 +18,7 @@ export class YahooScraper implements Scraper {
     console.log(`Scraping ${url}`);
     const {data} = await this.httpClient.get(url);
     const ticker = searchInformationInBody(data);
-    console.log(`Ticker: ${ticker}`);
+    console.info('Ticker:', ticker);
     return new Ticker(ticker);
   }
 }
