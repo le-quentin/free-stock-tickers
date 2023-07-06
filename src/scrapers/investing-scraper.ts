@@ -32,6 +32,7 @@ function searchValueInBody(body: string): string {
   tag = $('[data-test=instrument-price-last]');
   if (tag?.text()) return tag.text();
 
+  if (process.env.FST_DEBUG) console.error(`Cannot find value in html body:\n${body}`);
   throw new Error('Cannot find relevant html tag in investing.com value page!');
 }
 
